@@ -1,7 +1,6 @@
-package com.ecommerce.produto.unit.Controller;
+package com.ecommerce.produto.controller;
 
-import com.ecommerce.produto.util.ProductFactory;
-import com.ecommerce.produto.controller.ProdutoController;
+import com.ecommerce.produto.util.ProdutoFactory;
 import com.ecommerce.produto.model.Produto;
 import com.ecommerce.produto.service.ProdutoService;
 import org.assertj.core.api.Assertions;
@@ -35,8 +34,13 @@ public class ProdutoControllerTest {
     @BeforeEach
     void setup()  {
 
+        Produto produto = new Produto(1L, "Caderno", new BigDecimal(25.99));
+
         BDDMockito.when(serviceMocked.findById(ArgumentMatchers.any()))
-                .thenReturn( new Produto(1L, "Caderno", new BigDecimal(25.99)));
+                .thenReturn(produto);
+
+        BDDMockito.when(serviceMocked.save(ArgumentMatchers.any()))
+                .thenReturn(produto);
 
     }
 
@@ -77,7 +81,7 @@ public class ProdutoControllerTest {
     void findAll_retornaListaDeProdutosFiltradosPorNome_QuandoSucesso() {
         BDDMockito.when(serviceMocked.findAll(ArgumentMatchers.any(), ArgumentMatchers.any(),
                         ArgumentMatchers.any(), ArgumentMatchers.any()))
-                .thenReturn(new PageImpl<>(ProductFactory.criaListaValida()
+                .thenReturn(new PageImpl<>(ProdutoFactory.criaListaValida()
                         .stream()
                         .filter(produto -> produto.getNome().equals("Caderno"))
                         .collect(Collectors.toList())));
@@ -98,7 +102,7 @@ public class ProdutoControllerTest {
     void findAll_retornaListaDeProdutosFiltradosPorValorMaiorQue_QuandoSucesso() {
         BDDMockito.when(serviceMocked.findAll(ArgumentMatchers.any(), ArgumentMatchers.any(),
                         ArgumentMatchers.any(), ArgumentMatchers.any()))
-                .thenReturn(new PageImpl<>(ProductFactory.criaListaValida()
+                .thenReturn(new PageImpl<>(ProdutoFactory.criaListaValida()
                         .stream()
                         .filter(produto -> produto.getPreco().compareTo(new BigDecimal(2)) > 0)
                         .collect(Collectors.toList())));
@@ -116,7 +120,7 @@ public class ProdutoControllerTest {
     void findAll_retornaListaDeProdutosFiltradosPorValorMenorQue_QuandoSucesso() {
         BDDMockito.when(serviceMocked.findAll(ArgumentMatchers.any(), ArgumentMatchers.any(),
                         ArgumentMatchers.any(), ArgumentMatchers.any()))
-                .thenReturn(new PageImpl<>(ProductFactory.criaListaValida()
+                .thenReturn(new PageImpl<>(ProdutoFactory.criaListaValida()
                         .stream()
                         .filter(produto -> produto.getPreco().compareTo(new BigDecimal(2)) < 0)
                         .collect(Collectors.toList())));
