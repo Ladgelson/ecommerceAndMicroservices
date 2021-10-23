@@ -9,5 +9,5 @@ public interface CategoriaService {
     Categoria findById(Long id);
     Categoria save(Categoria categoria);
     Categoria update(Categoria categoria);
-    Categoria delete(Long id);
+    void delete(Long id);
 }
