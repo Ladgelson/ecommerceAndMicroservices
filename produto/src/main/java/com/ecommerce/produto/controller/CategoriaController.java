@@ -1,6 +1,6 @@
 package com.ecommerce.produto.controller;
 
-import com.ecommerce.produto.dto.CategoriaDto;
+import com.ecommerce.produto.dto.out.CategoriaDtoOut;
 import com.ecommerce.produto.mapper.CategoriaMapper;
 import com.ecommerce.produto.model.Categoria;
 import com.ecommerce.produto.service.CategoriaService;
@@ -35,8 +35,9 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody @Valid CategoriaDto dto) {
-        Categoria categoria = service.save(CategoriaMapper.INSTANCE.categoriaDtoToCategoria(dto));
+    public ResponseEntity<Void> save(@RequestBody @Valid CategoriaDtoOut dto) {
+        Categoria c = CategoriaMapper.INSTANCE.categoriaDtoToCategoria(dto);
+        Categoria categoria = service.save(c);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -46,10 +47,10 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> update(@PathVariable Long id, @RequestBody CategoriaDto dto) {
+    public ResponseEntity<Categoria> update(@PathVariable Long id, @RequestBody CategoriaDtoOut dto) {
         Categoria categoria = CategoriaMapper.INSTANCE.categoriaDtoToCategoria(dto);
         categoria.setId(id);
-        return ResponseEntity.ok(categoria);
+        return ResponseEntity.ok(service.update(categoria));
     }
 
     @DeleteMapping("/{id}")

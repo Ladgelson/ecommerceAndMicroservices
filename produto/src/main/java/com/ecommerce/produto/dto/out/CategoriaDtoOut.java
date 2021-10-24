@@ -1,14 +1,14 @@
-package com.ecommerce.produto.dto;
+package com.ecommerce.produto.dto.out;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProdutoDto {
+public class CategoriaDtoOut {
     private String nome;
-    private BigDecimal preco;
 }

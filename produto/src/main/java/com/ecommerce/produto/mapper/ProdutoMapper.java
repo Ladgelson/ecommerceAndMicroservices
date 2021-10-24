@@ -1,6 +1,7 @@
 package com.ecommerce.produto.mapper;
 
-import com.ecommerce.produto.dto.ProdutoDto;
+import com.ecommerce.produto.dto.in.ProdutoDtoIn;
+import com.ecommerce.produto.dto.out.ProdutoDtoOut;
 import com.ecommerce.produto.model.Produto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,5 +10,5 @@ import org.mapstruct.factory.Mappers;
 public interface ProdutoMapper {
     ProdutoMapper INSTANCE = Mappers.getMapper(ProdutoMapper.class);
 
-    Produto produtoDtoToProduto(ProdutoDto dto);
+    Produto produtoDtoOutToProduto(ProdutoDtoOut dto);
 }

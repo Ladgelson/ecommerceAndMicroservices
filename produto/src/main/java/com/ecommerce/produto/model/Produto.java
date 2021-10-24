@@ -1,6 +1,6 @@
 package com.ecommerce.produto.model;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,11 +8,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 @Entity
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +26,32 @@ public class Produto {
     @NotNull(message = "Preco não pode ser nulo")
     private BigDecimal preco;
 
-    @OneToMany(mappedBy = "produto")
-    Set<Categoria> categorias;
+    @NotNull(message = "Cor não pode ser nula")
+    private String cor;
 
-    public Produto(Long id, String nome, BigDecimal preco) {
+    @ManyToOne
+    @JoinColumn(name="marca_id", nullable=false)
+    private Marca marca;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date createdAt;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date updatedAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "produto_categoria",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categoria> categorias = new ArrayList<>();
+
+    public Produto(Long id, String nome, BigDecimal preco, Marca marca, String cor) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
-        categorias = new HashSet<>();
+        this.marca = marca;
+        this.cor = cor;
     }
 }

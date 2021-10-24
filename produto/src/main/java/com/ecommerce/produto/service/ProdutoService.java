@@ -1,17 +1,29 @@
 package com.ecommerce.produto.service;
 
-import com.ecommerce.produto.dto.ProdutoDto;
-import com.ecommerce.produto.mapper.ProdutoMapper;
+import com.ecommerce.produto.dto.in.ProdutoDtoIn;
+import com.ecommerce.produto.model.Categoria;
+import com.ecommerce.produto.model.Marca;
 import com.ecommerce.produto.model.Produto;
+import com.ecommerce.produto.repository.MarcaRepository;
 import com.ecommerce.produto.repository.ProdutoRepository;
 import com.ecommerce.produto.service.exception.ResourceNotFoundException;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ProdutoService {
@@ -19,35 +31,66 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository repository;
 
+    @Autowired
+    private MarcaService marcaService;
+
+    @Autowired
+    private CategoriaService categoriaService;
+
     public Page<Produto> findAll(Pageable pageable, String nome, BigDecimal precoMaiorque, BigDecimal precoMenorque) {
-        if(nome != null && precoMaiorque != null) {
-            return repository.findByNomeIgnoreCaseAndPrecoGreaterThanEqual(pageable, nome, precoMaiorque);
-        } else if(nome != null && precoMenorque != null) {
-            return repository.findByNomeIgnoreCaseAndPrecoLessThanEqual(pageable, nome, precoMenorque);
-        } else if(nome != null) {
-            return repository.findByNomeIgnoreCase(pageable, nome);
-        } else if(precoMaiorque != null) {
-            return repository.findByPrecoGreaterThanEqual(pageable, precoMaiorque);
-        } else if(precoMenorque != null) {
-            return repository.findByPrecoLessThanEqual(pageable, precoMenorque);
-        } else
-            return repository.findAll(pageable);
+        return repository.findAll((Specification<Produto>) (root, query, criteriaBuilder) -> {
+            Predicate p = criteriaBuilder.conjunction();
+            if(nome != null) {
+                p = criteriaBuilder.and(p, criteriaBuilder.like(root.get("nome"), "%"+nome+"%"));
+            }
+            if(Objects.nonNull(precoMaiorque)) {
+                p = criteriaBuilder.and(p, criteriaBuilder.greaterThanOrEqualTo(root.get("preco"), precoMaiorque));
+            }
+            if(Objects.nonNull(precoMenorque)) {
+                p = criteriaBuilder.and(p, criteriaBuilder.lessThanOrEqualTo(root.get("preco"), precoMenorque));
+            }
+            return p;
+        }, pageable);
     }
 
     public Produto findById(Long id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Produto save(Produto produto) {
+    public Produto save(ProdutoDtoIn produtoDtoIn) {
+        Marca marca = marcaService.findById(produtoDtoIn.getMarcaId());
+        Produto produto = new Produto(null, produtoDtoIn.getNome(), produtoDtoIn.getPreco(), marca, produtoDtoIn.getCor());
+        produto.setCreatedAt(Date.from(Instant.now()));
         return repository.save(produto);
     }
 
-    public Produto update(Produto produto) {
-        findById(produto.getId());
-        return repository.save(produto);
+    public Produto update(ProdutoDtoIn produto, Long id) {
+        Marca marca = marcaService.findById(produto.getMarcaId());
+        Produto p = new Produto(null, produto.getNome(), produto.getPreco(), marca, produto.getCor());
+        p.setUpdatedAt(Date.from(Instant.now()));
+        findById(id);
+        return repository.save(p);
     }
 
     public void delete(Long id) {
         repository.delete(findById(id));
+    }
+
+    public void associaProduto(Long produtoId, Long categoriaId) {
+        Produto produto = findById(produtoId);
+        Categoria categoria = categoriaService.findById(categoriaId);
+        produto.getCategorias().add(categoria);
+        repository.save(produto);
+    }
+
+    public void desassociaProduto(Long produtoId, Long categoriaId) {
+        Produto produto = findById(produtoId);
+        Categoria categoria = categoriaService.findById(categoriaId);
+        produto.getCategorias().remove(categoria);
+        repository.save(produto);
+    }
+
+    public Page<Categoria> findCategoriasByProduto(Long produtoId, Pageable pageable) {
+        return categoriaService.findCategoriaByProdutoId(produtoId, pageable);
     }
 }

@@ -1,7 +1,9 @@
 package com.ecommerce.produto.controller;
 
-import com.ecommerce.produto.dto.ProdutoDto;
+import com.ecommerce.produto.dto.in.ProdutoDtoIn;
+import com.ecommerce.produto.dto.out.ProdutoDtoOut;
 import com.ecommerce.produto.mapper.ProdutoMapper;
+import com.ecommerce.produto.model.Categoria;
 import com.ecommerce.produto.model.Produto;
 import com.ecommerce.produto.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/produtos")
@@ -40,8 +43,8 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody @Valid ProdutoDto produtoDto) {
-        Produto produto = service.save(ProdutoMapper.INSTANCE.produtoDtoToProduto(produtoDto));
+    public ResponseEntity<Void> save(@RequestBody @Valid ProdutoDtoIn produtoDto) {
+        Produto produto = service.save(produtoDto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -51,15 +54,34 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> update(@PathVariable Long id, @RequestBody @Valid ProdutoDto produtoDto) {
-        Produto produto = ProdutoMapper.INSTANCE.produtoDtoToProduto(produtoDto);
-        produto.setId(id);
-        return ResponseEntity.ok(service.update(produto));
+    public ResponseEntity<Produto> update(@PathVariable Long id, @RequestBody @Valid ProdutoDtoIn produtoDto) {
+        return ResponseEntity.ok(service.update(produtoDto, id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/{produtoId}/categorias/{categoriaId}/associa")
+    public ResponseEntity<Void> associaCategoria(@PathVariable Long produtoId, @PathVariable Long categoriaId) {
+        service.associaProduto(produtoId, categoriaId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/{produtoId}/categorias/{categoriaId}/desassocia")
+    public ResponseEntity<Void> desassociaCategoria(@PathVariable Long produtoId, @PathVariable Long categoriaId) {
+        service.desassociaProduto(produtoId, categoriaId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @GetMapping("/{produtoId}/categorias")
+    public ResponseEntity<Page<Categoria>> findCategoriaByProduto(@PathVariable Long produtoId, Pageable pageable) {
+        Page<Categoria> categorias = service.findCategoriasByProduto(produtoId, pageable);
+        if(categorias.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(categorias);
     }
 }
