@@ -8,6 +8,7 @@ import com.ecommerce.produto.model.Produto;
 import com.ecommerce.produto.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/produtos")
@@ -26,7 +28,7 @@ public class ProdutoController {
     private ProdutoService service;
 
     @GetMapping
-    public ResponseEntity<Page<Produto>> findAll(Pageable pageable,
+    public ResponseEntity<Page<ProdutoDtoOut>> findAll(Pageable pageable,
                                                  @RequestParam(required = false) String nome,
                                                  @RequestParam(required = false) BigDecimal precoMaiorque,
                                                  @RequestParam(required = false) BigDecimal precoMenorque) {
@@ -34,7 +36,7 @@ public class ProdutoController {
         if(produtos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(produtos);
+        return ResponseEntity.ok(new PageImpl<>(produtos.stream().map(p -> new ProdutoDtoOut(p)).collect(Collectors.toList())));
     }
 
     @GetMapping("/{id}")
@@ -83,5 +85,13 @@ public class ProdutoController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(categorias);
+    }
+
+    @PostMapping("/{produtoId}/estoque/{quantidade}")
+    public ResponseEntity<Void> setaEstoque(@PathVariable Long produtoId, @PathVariable Integer quantidade) {
+        Produto p = service.findById(produtoId);
+        p.setQuantidadeEstoque(quantidade);
+        service.update(new ProdutoDtoIn(p), produtoId);
+        return ResponseEntity.accepted().build();
     }
 }

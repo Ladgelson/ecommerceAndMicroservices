@@ -1,5 +1,6 @@
 package com.ecommerce.produto.model;
 
+import com.ecommerce.produto.dto.in.ProdutoDtoIn;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -38,6 +38,8 @@ public class Produto {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;
+
+    private Integer quantidadeEstoque;
 
     @ManyToMany
     @JoinTable(

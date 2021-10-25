@@ -4,7 +4,6 @@ import com.ecommerce.produto.dto.in.ProdutoDtoIn;
 import com.ecommerce.produto.model.Categoria;
 import com.ecommerce.produto.model.Marca;
 import com.ecommerce.produto.model.Produto;
-import com.ecommerce.produto.repository.MarcaRepository;
 import com.ecommerce.produto.repository.ProdutoRepository;
 import com.ecommerce.produto.service.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class ProdutoService {
@@ -66,9 +58,12 @@ public class ProdutoService {
 
     public Produto update(ProdutoDtoIn produto, Long id) {
         Marca marca = marcaService.findById(produto.getMarcaId());
-        Produto p = new Produto(null, produto.getNome(), produto.getPreco(), marca, produto.getCor());
+        Produto p = findById(id);
+        p.setNome(produto.getNome());
+        p.setCor(produto.getCor());
+        p.setMarca(marca);
+        p.setQuantidadeEstoque(produto.getQuantidadeEstoque());
         p.setUpdatedAt(Date.from(Instant.now()));
-        findById(id);
         return repository.save(p);
     }
 
