@@ -49,6 +49,9 @@ public class Produto {
     )
     private List<Categoria> categorias = new ArrayList<>();
 
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> items = new HashSet<>();
+
     public Produto(Long id, String nome, BigDecimal preco, Marca marca, String cor) {
         this.id = id;
         this.nome = nome;

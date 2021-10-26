@@ -1,11 +1,8 @@
 package com.ecommerce.produto.seeding;
 
-import com.ecommerce.produto.model.Categoria;
-import com.ecommerce.produto.model.Marca;
-import com.ecommerce.produto.model.Produto;
-import com.ecommerce.produto.repository.CategoriaRepository;
-import com.ecommerce.produto.repository.MarcaRepository;
-import com.ecommerce.produto.repository.ProdutoRepository;
+import com.ecommerce.produto.enums.StatusPedido;
+import com.ecommerce.produto.model.*;
+import com.ecommerce.produto.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +23,12 @@ public class Seeding implements CommandLineRunner {
 
     @Autowired
     private MarcaRepository marcaRepository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -77,6 +80,14 @@ public class Seeding implements CommandLineRunner {
         colher.getCategorias().add(construcao);
 
         produtoRepository.saveAll(Arrays.asList(caderno, caneta, corretivo, pa, colher));
+
+        Pedido pedido1 = new Pedido(null, Instant.now(), StatusPedido.WAITING_PAYMANT);
+
+        pedido1 = pedidoRepository.save(pedido1);
+
+        ItemPedido itemPedido1 = new ItemPedido(pedido1, caderno, 2, caderno.getPreco());
+
+        itemPedidoRepository.save(itemPedido1);
 
     }
 }
