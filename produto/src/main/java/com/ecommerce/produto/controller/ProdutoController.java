@@ -1,8 +1,7 @@
 package com.ecommerce.produto.controller;
 
-import com.ecommerce.produto.dto.in.ProdutoDtoIn;
-import com.ecommerce.produto.dto.out.ProdutoDtoOut;
-import com.ecommerce.produto.mapper.ProdutoMapper;
+import com.ecommerce.produto.model.dto.in.ProdutoDtoIn;
+import com.ecommerce.produto.model.dto.out.ProdutoDtoOut;
 import com.ecommerce.produto.model.Categoria;
 import com.ecommerce.produto.model.Produto;
 import com.ecommerce.produto.service.ProdutoService;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -17,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,7 +35,7 @@ public class ProdutoController {
         if(produtos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(new PageImpl<>(produtos.stream().map(p -> new ProdutoDtoOut(p)).collect(Collectors.toList())));
+        return ResponseEntity.ok(new PageImpl<>(produtos.stream().map(ProdutoDtoOut::new).collect(Collectors.toList())));
     }
 
     @GetMapping("/{id}")
@@ -46,13 +45,13 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody @Valid ProdutoDtoIn produtoDto) {
-        Produto produto = service.save(produtoDto);
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(produto.getId())
-                .toUri();
-        return ResponseEntity.created(uri).build();
+        service.save(produtoDto);
+//        URI uri = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(produto.getId())
+//                .toUri();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")

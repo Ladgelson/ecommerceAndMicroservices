@@ -1,6 +1,6 @@
 package com.ecommerce.produto.mapper;
 
-import com.ecommerce.produto.dto.out.CategoriaDtoOut;
+import com.ecommerce.produto.model.dto.out.CategoriaDtoOut;
 import com.ecommerce.produto.model.Categoria;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

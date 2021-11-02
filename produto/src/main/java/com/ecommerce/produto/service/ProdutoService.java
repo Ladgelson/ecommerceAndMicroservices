@@ -1,6 +1,6 @@
 package com.ecommerce.produto.service;
 
-import com.ecommerce.produto.dto.in.ProdutoDtoIn;
+import com.ecommerce.produto.model.dto.in.ProdutoDtoIn;
 import com.ecommerce.produto.model.Categoria;
 import com.ecommerce.produto.model.Marca;
 import com.ecommerce.produto.model.Produto;

@@ -1,6 +1,5 @@
 package com.ecommerce.produto.model;
 
-import com.ecommerce.produto.dto.in.ProdutoDtoIn;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;

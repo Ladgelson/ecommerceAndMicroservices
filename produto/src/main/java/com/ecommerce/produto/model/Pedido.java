@@ -1,6 +1,6 @@
 package com.ecommerce.produto.model;
 
-import com.ecommerce.produto.enums.StatusPedido;
+import com.ecommerce.produto.model.enums.StatusPedido;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

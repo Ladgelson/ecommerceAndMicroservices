@@ -18,6 +18,9 @@ class ProdutoRepositoryTest {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private MarcaRepository marcaRepository;
+
     @BeforeEach
     void setUp() {
     }
@@ -26,6 +29,8 @@ class ProdutoRepositoryTest {
     @DisplayName("save: persiste um produto quando sucesso")
     void save_persisteProduto_QuandoSucesso() {
         Produto produto = ProdutoFactory.criaProdutoParaSalvar();
+        marcaRepository.save(produto.getMarca());
+
         Produto produtoSalvo = produtoRepository.save(produto);
 
         Assertions.assertThat(produtoSalvo)
@@ -54,7 +59,10 @@ class ProdutoRepositoryTest {
     @DisplayName("save: atualiza um produto quando sucesso")
     void save_atualizaProduto_QuandoSucesso(){
         Produto produto = ProdutoFactory.criaProdutoParaSalvar();
+        marcaRepository.save(produto.getMarca());
+
         produto = produtoRepository.save(produto);
+
         produto.setNome("Overflow");
         produto = produtoRepository.save(produto);
 
@@ -69,6 +77,8 @@ class ProdutoRepositoryTest {
     @DisplayName("delete: deleta um produto quando sucesso")
     void delete_deletaProduto_QuandoSucesso(){
         Produto produto = ProdutoFactory.criaProdutoParaSalvar();
+        marcaRepository.save(produto.getMarca());
+
         produto = produtoRepository.save(produto);
 
         produtoRepository.delete(produto);

@@ -1,6 +1,6 @@
 package com.ecommerce.produto.controller;
 
-import com.ecommerce.produto.dto.out.CategoriaDtoOut;
+import com.ecommerce.produto.model.dto.out.CategoriaDtoOut;
 import com.ecommerce.produto.mapper.CategoriaMapper;
 import com.ecommerce.produto.model.Categoria;
 import com.ecommerce.produto.service.CategoriaService;

@@ -1,6 +1,6 @@
 package com.ecommerce.produto.controller;
 
-import com.ecommerce.produto.dto.out.MarcaDtoOut;
+import com.ecommerce.produto.model.dto.out.MarcaDtoOut;
 import com.ecommerce.produto.model.Marca;
 import com.ecommerce.produto.service.MarcaService;
 import org.springframework.beans.factory.annotation.Autowired;

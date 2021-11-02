@@ -13,10 +13,10 @@ public class ProdutoIntegrationTest {
 
     }
 
-    @Test
-    @DisplayName("Procura")
-    void persisteUmNovoProduto(){
-
-    }
+//    @Test
+//    @DisplayName("Procura")
+//    void persisteUmNovoProduto(){
+//
+//    }
 
 }
