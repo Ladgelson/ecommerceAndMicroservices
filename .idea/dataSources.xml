@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:postgresql://localhost:2345/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="testemysql@localhost" uuid="36727024-ea6a-4564-b572-c8181d21eeda">
+    <data-source source="LOCAL" name="testemysql@localhost" uuid="3c59fc79-a6cf-4ef2-a2cb-28717d519097">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/testemysql</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:8855/testemysql</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

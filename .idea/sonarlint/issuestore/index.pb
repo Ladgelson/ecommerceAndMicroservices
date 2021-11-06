@@ -1,5 +1,23 @@
 
 B
 docker-compose.yml,3\5\35b8c13cf2eb2a194eada000eb310d65aed53b2a
-x
-Hproduto/src/test/java/com/ecommerce/produto/ProdutoApplicationTests.java,2\c\2ca5909b1e6e72c7a1461e6ad44ec8d321b13686
+l
+<produto/src/main/java/com/ecommerce/produto/model/Marca.java,e\4\e406ffe52fb918c4baebe6b82728f3aee18d7fca
+s
+Cproduto/src/main/java/com/ecommerce/produto/ProdutoApplication.java,a\c\ac7ac200ddfe6828c228d6fcd6920f1c3395f2ca
+m
+=produto/src/main/java/com/ecommerce/produto/model/Pedido.java,2\e\2e3ebd607b7af94e12f41b2948fcaf4cff66a735
+ƒ
+Sproduto/src/test/java/com/ecommerce/produto/integration/ProdutoIntegrationTest.java,0\0\00dfcbd8a076aad508100de4ae30c34755d0f74a
+{
+Kproduto/src/test/java/com/ecommerce/produto/integration/ProdutoApiCall.java,c\5\c5a62f4ded0fc1c2c7fd2a43645a387770fe77e9
+ˆ
+Xproduto/src/main/java/com/ecommerce/produto/exception/ExceptionHandlerConfiguration.java,6\1\61b6d0b56177242019d0724d5bde768888c378e7
+y
+Iproduto/src/main/java/com/ecommerce/produto/model/enums/StatusPedido.java,2\8\2891a50982f6d3135b006701f39f94aae49974b4
+n
+>produto/src/main/java/com/ecommerce/produto/model/Produto.java,8\8\88f39f9257b45fdc8ed401ea6af7c8a341e4ad27
+
+Oproduto/src/main/java/com/ecommerce/produto/controller/CategoriaController.java,b\4\b44b63742683bd54b7f7d7d8a5f217cb4d1ef041
+|
+Lproduto/src/main/java/com/ecommerce/produto/model/dto/out/ProdutoDtoOut.java,f\4\f442fb564413b72d20a1b51932b51ee556c437fb

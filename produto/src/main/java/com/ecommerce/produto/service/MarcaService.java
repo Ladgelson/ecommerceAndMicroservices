@@ -1,7 +1,6 @@
 package com.ecommerce.produto.service;
 
 import com.ecommerce.produto.model.Marca;
-import com.ecommerce.produto.model.Produto;
 import com.ecommerce.produto.repository.MarcaRepository;
 import com.ecommerce.produto.service.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +31,10 @@ public class MarcaService {
     }
 
     public Marca update(Marca marca, Long id) {
-        Marca findedMarca = findById(id);
-        findedMarca.setNome(marca.getNome());
-        findedMarca.setUpdatedAt(Date.from(Instant.now()));
-        return repository.save(findedMarca);
+        Marca foundMaraca = findById(id);
+        foundMaraca.setNome(marca.getNome());
+        foundMaraca.setUpdatedAt(Date.from(Instant.now()));
+        return repository.save(foundMaraca);
     }
 
     public void delete(Long id) {
