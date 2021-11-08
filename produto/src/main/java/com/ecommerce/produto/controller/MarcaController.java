@@ -48,7 +48,7 @@ public class MarcaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MarcaDtoOut> update(@RequestBody Marca marca, @PathVariable Long id) {
-        return ResponseEntity.ok(new MarcaDtoOut(service.update(marca, id)));
+        return ResponseEntity.accepted().body(new MarcaDtoOut(service.update(marca, id)));
     }
 
     @DeleteMapping("/{id}")

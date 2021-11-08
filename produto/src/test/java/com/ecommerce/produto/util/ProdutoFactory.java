@@ -2,8 +2,6 @@ package com.ecommerce.produto.util;
 
 import com.ecommerce.produto.model.Marca;
 import com.ecommerce.produto.model.Produto;
-import org.springframework.data.domain.PageImpl;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
