@@ -31,10 +31,10 @@ public class MarcaService {
     }
 
     public Marca update(Marca marca, Long id) {
-        Marca foundMaraca = findById(id);
-        foundMaraca.setNome(marca.getNome());
-        foundMaraca.setUpdatedAt(Date.from(Instant.now()));
-        return repository.save(foundMaraca);
+        Marca foundMarca = findById(id);
+        foundMarca.setNome(marca.getNome());
+        foundMarca.setUpdatedAt(Date.from(Instant.now()));
+        return repository.save(foundMarca);
     }
 
     public void delete(Long id) {
