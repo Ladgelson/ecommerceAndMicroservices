@@ -1,6 +1,7 @@
 package com.ecommerce.produto.model;
 
 import com.ecommerce.produto.model.pk.PedidoProdutoPK;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.EmbeddedId;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor
+@Data
 public class ItemPedido  {
     @EmbeddedId
     private PedidoProdutoPK id = new PedidoProdutoPK();

@@ -1,6 +1,7 @@
 package com.ecommerce.produto.model;
 
 import com.ecommerce.produto.model.enums.StatusPedido;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
+@Data
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
