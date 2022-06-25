@@ -67,18 +67,18 @@ public class ProdutoController {
 
     @PostMapping("/{produtoId}/categorias/{categoriaId}/associa")
     public ResponseEntity<Void> associaCategoria(@PathVariable Long produtoId, @PathVariable Long categoriaId) {
-        service.associaProduto(produtoId, categoriaId);
+        service.associaCategoria(produtoId, categoriaId);
         return ResponseEntity.accepted().build();
     }
 
     @PostMapping("/{produtoId}/categorias/{categoriaId}/desassocia")
     public ResponseEntity<Void> desassociaCategoria(@PathVariable Long produtoId, @PathVariable Long categoriaId) {
-        service.desassociaProduto(produtoId, categoriaId);
+        service.desassociaCategoria(produtoId, categoriaId);
         return ResponseEntity.accepted().build();
     }
 
     @GetMapping("/{produtoId}/categorias")
-    public ResponseEntity<Page<Categoria>> findCategoriaByProduto(@PathVariable Long produtoId, Pageable pageable) {
+    public ResponseEntity<Page<Categoria>> findCategoriasByProduto(@PathVariable Long produtoId, Pageable pageable) {
         Page<Categoria> categorias = service.findCategoriasByProduto(produtoId, pageable);
         if(categorias.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -86,11 +86,9 @@ public class ProdutoController {
         return ResponseEntity.ok(categorias);
     }
 
-    @PostMapping("/{produtoId}/estoque/{quantidade}")
+    @PatchMapping("/{produtoId}/estoque/{quantidade}")
     public ResponseEntity<Void> setaEstoque(@PathVariable Long produtoId, @PathVariable Integer quantidade) {
-        Produto p = service.findById(produtoId);
-        p.setQuantidadeEstoque(quantidade);
-        service.update(new ProdutoDtoIn(p), produtoId);
+        service.setaEstoque(produtoId, quantidade);
         return ResponseEntity.accepted().build();
     }
 }

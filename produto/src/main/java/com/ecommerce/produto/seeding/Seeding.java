@@ -35,6 +35,9 @@ public class Seeding implements CommandLineRunner {
 //        produtoRepository.deleteAll();
 //        categoriaRepository.deleteAll();
 //        marcaRepository.deleteAll();
+//        pedidoRepository.deleteAll();
+//        itemPedidoRepository.deleteAll();
+//
 //        // marcas
 //        Marca bic = new Marca(null, "BIC");
 //        bic.setCreatedAt(Date.from(Instant.now()));

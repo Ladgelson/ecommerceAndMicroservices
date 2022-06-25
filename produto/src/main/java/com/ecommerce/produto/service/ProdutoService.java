@@ -71,21 +71,30 @@ public class ProdutoService {
         repository.delete(findById(id));
     }
 
-    public void associaProduto(Long produtoId, Long categoriaId) {
+    public Produto associaCategoria(Long produtoId, Long categoriaId) {
         Produto produto = findById(produtoId);
         Categoria categoria = categoriaService.findById(categoriaId);
         produto.getCategorias().add(categoria);
-        repository.save(produto);
+        produto.setUpdatedAt(Date.from(Instant.now()));
+        return repository.save(produto);
     }
 
-    public void desassociaProduto(Long produtoId, Long categoriaId) {
+    public Produto desassociaCategoria(Long produtoId, Long categoriaId) {
         Produto produto = findById(produtoId);
         Categoria categoria = categoriaService.findById(categoriaId);
         produto.getCategorias().remove(categoria);
-        repository.save(produto);
+        produto.setUpdatedAt(Date.from(Instant.now()));
+        return repository.save(produto);
     }
 
     public Page<Categoria> findCategoriasByProduto(Long produtoId, Pageable pageable) {
         return categoriaService.findCategoriaByProdutoId(produtoId, pageable);
+    }
+
+    public Produto setaEstoque(Long produtoId, Integer estoque) {
+        Produto produto = findById(produtoId);
+        produto.setQuantidadeEstoque(estoque);
+        produto.setUpdatedAt(Date.from(Instant.now()));
+        return repository.save(produto);
     }
 }
